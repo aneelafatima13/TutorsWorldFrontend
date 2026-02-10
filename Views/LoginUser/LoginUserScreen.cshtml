@@ -1,0 +1,347 @@
+﻿
+@{
+    ViewBag.Title = "LoginUserScreen";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+    var userCookie = Request.Cookies["UserProfile"];
+
+    // Redirect to login if cookie is missing
+    if (userCookie == null)
+    {
+        Response.Redirect(Url.Action("Login", "Home"));
+        return;
+    }
+
+    string role = userCookie["Role"];
+    long currentId = 0;
+
+    // Determine the specific Profile ID based on the Role
+    // 0 = Tutor, 1 = Student, 2 = Guardian
+    if (role == "Tutor")
+    {
+        long.TryParse(userCookie["TutorId"], out currentId);
+    }
+    else if (role == "Student")
+    {
+        long.TryParse(userCookie["StudentId"], out currentId);
+    }
+    else if (role == "Gardian")
+    {
+        long.TryParse(userCookie["GardianId"], out currentId);
+    }
+}
+
+<input type="hidden" id="hdnUserId" value="@currentId" />
+<input type="hidden" id="hdnUserRole" value="@role" />
+<input type="hidden" id="hdnCurrentConnectionId"/>
+
+<style>
+    /* Custom Tabs Styling */
+    .custom-tabs {
+        border-bottom: 2px solid #f1f1f1;
+        gap: 10px;
+    }
+
+        .custom-tabs .nav-item {
+            margin-bottom: -2px; /* Align with bottom border */
+        }
+
+        .custom-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+
+            .custom-tabs .nav-link:hover {
+                color: #007bff;
+                background-color: #f8f9fa;
+                border-color: transparent;
+            }
+
+            .custom-tabs .nav-link.active {
+                color: #007bff !important;
+                background: transparent !important;
+                border-bottom: 2px solid #007bff !important;
+                border-radius: 0;
+            }
+
+    /* Tab Content Box */
+    #userDashboardContent {
+        border-radius: 12px !important;
+        border: 1px solid #eaeaea !important;
+        margin-top: -1px; /* Seamless connection if needed */
+    }
+
+    /* Icon Support (Optional but recommended) */
+    .custom-tabs .nav-link i {
+        margin-right: 8px;
+        font-size: 1.1rem;
+    }
+
+    /* Selected connection styling */
+    .connection-item {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-left: 4px solid transparent;
+    }
+
+        .connection-item:hover {
+            background-color: #f8f9fa;
+        }
+
+    .selected-connection {
+        border: 2px solid #28a745 !important; /* Green Border */
+        border-left: 5px solid #28a745 !important;
+        background-color: #f0fff4;
+    }
+    .profile-card {
+        padding: 20px;
+        background: #fff;
+        transition: transform 0.2s;
+    }
+
+    .tutor-view {
+        border-top: 4px solid #007bff; /* Blue for Tutors */
+    }
+
+    .student-view {
+        border-top: 4px solid #28a745; /* Green for Students */
+    }
+
+    .profile-card h5 {
+        color: #444;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+</style>
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <div class="shop__sidebar shadow-sm border rounded p-3 bg-white">
+                    <div class="sidebar__item">
+                        <h4 id="connectionTitle">My Connections</h4>
+                        <ul id="connectionList" class="list-group list-group-flush mt-3">
+                            <li class="list-group-item text-muted">Loading...</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-9 col-md-9" id="tabs">
+                <ul class="nav nav-tabs custom-tabs mb-4" id="userDashboardTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab">
+                            <i class="fa fa-user-circle"></i>Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="timetable-tab" data-toggle="tab" href="#timetable" role="tab">
+                            <i class="fa fa-calendar"></i>TimeTable
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="assignments-tab" data-toggle="tab" href="#assignments" role="tab">
+                            <i class="fa fa-tasks"></i>Assignments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="leaves-tab" data-toggle="tab" href="#leaves" role="tab">
+                            <i class="fa fa-envelope-open"></i>Leaves
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content shadow-sm p-4 bg-white border rounded" id="userDashboardContent">
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                        <div id="profile-data-container">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-success" role="status"></div>
+                                <p>Selecting Connection...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="timetable" role="tabpanel">
+                        <h4>Weekly Schedule</h4>
+                        <p>Your class schedule will appear here.</p>
+                    </div>
+                    <div class="tab-pane fade" id="assignments" role="tabpanel">
+                        <h4>Assignments</h4>
+                        <p>No pending assignments found.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script>
+       $(document).ready(function () {
+           loadSidebarConnections();
+       });
+
+       function loadSidebarConnections() {
+           var role = $("#hdnUserRole").val();
+           $("#connectionTitle").text(role === "Tutor" ? "My Students" : "My Tutors");
+           var connectionrole = role === "Tutor" ? "Student" : "Tutor"
+           $.ajax({
+               url: '/LoginUser/GetConnectionsProxy',
+               type: 'GET',
+               dataType: 'json',
+               success: function (response) {
+                   var html = "";
+                   if (response.success && response.data && response.data.length > 0) {
+                       $.each(response.data, function (i, item) {
+                           // We store ConnectionId and the Name in data attributes
+                           html += `
+                    <li class="list-group-item connection-item d-flex justify-content-between align-items-center shadow-sm mb-2 rounded" 
+                        data-id="${item.ConnectionId}" 
+                        data-type="${connectionrole}" 
+                        onclick="selectConnection(this)">
+                        <span>
+                            <i class="fa fa-user-circle mr-2 text-primary"></i>
+                            <strong>${item.ConnectionName}</strong>
+                        </span>
+                    </li>`;
+                       });
+
+                       $("#connectionList").html(html);
+
+                       // AUTO-SELECT the first connection
+                       var firstItem = $('#connectionList li:first');
+                       selectConnection(firstItem);
+
+                   } else {
+                       $("#connectionList").html('<li class="list-group-item text-muted text-center">No connections found.</li>');
+                       $("#profile-data-container").html('<p class="p-3">No profile to display.</p>');
+                   }
+               },
+               error: function () {
+                   $("#connectionList").html('<li class="list-group-item text-danger">Error loading data.</li>');
+               }
+           });
+       }
+
+       function selectConnection(element) {
+           // 1. Visual Update: Remove green border from others, add to this one
+           $(".connection-item").removeClass("selected-connection");
+           $(element).addClass("selected-connection");
+
+           // 2. Set the Hidden Field
+           var connectionId = $(element).attr("data-id");
+           $("#hdnCurrentConnectionId").val(connectionId);
+
+           // 3. Fetch the Profile Details
+           fetchConnectionProfile(connectionId);
+       }
+
+       function fetchConnectionProfile(id) {
+           // Show Loading Spinner
+           $("#profile-data-container").html(`
+        <div class="text-center py-5">
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2">Loading Profile...</p>
+        </div>`);
+
+           // Determine target role (If I am a Tutor, I am fetching a Student's profile)
+           var myRole = $("#hdnUserRole").val();
+           var targetRole = (myRole === "Tutor") ? "Student" : "Tutor";
+
+           // Call your Proxy (adjusting the URL to pass the selected ID and target Role)
+           $.ajax({
+               url: '/LoginUser/GetProfileDataProxybyId', // We'll create this simplified proxy next
+               type: 'GET',
+               data: { id: id, role: targetRole },
+               success: function (data) {
+                   renderProfile(data);
+               },
+               error: function () {
+                   $("#profile-data-container").html('<p class="text-danger">Failed to load profile details.</p>');
+               }
+           });
+       }
+
+       function renderProfile(data) {
+           var myRole = $("#hdnUserRole").val();
+           var targetRole = (myRole === "Tutor") ? "Student" : "Tutor";
+
+           var html = "";
+
+           if (targetRole === "Tutor") {
+               html = renderTutorDesign(data);
+           } else {
+               html = renderStudentDesign(data);
+           }
+
+           $("#profile-data-container").hide().html(html).fadeIn(400);
+       }
+
+       function renderTutorDesign(data) {
+           return `
+    <div class="profile-card tutor-view">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="${data.ProfileImgPath || '/Content/images/default-tutor.png'}" class="img-thumbnail rounded-circle mb-3" style="width:150px; height:150px; object-fit:cover;">
+                    <h4>${data.FullName}</h4>
+                    <span class="badge badge-success">Professional Tutor</span>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h5><i class="fa fa-book-reader"></i> Teaching Details</h5>
+                <hr/>
+                <p><strong>Experience:</strong> ${data.ExperienceYears || 0} Years</p>
+                <p><strong>Qualification:</strong> ${data.HighestQualification || 'N/A'}</p>
+                <p><strong>Subjects:</strong> ${data.Subjects || 'N/A'}</p>
+                <div class="mt-3">
+                    <button class="btn btn-outline-primary btn-sm">Download CV</button>
+                    <button class="btn btn-success btn-sm">Schedule Class</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
+       }
+
+       function renderStudentDesign(data) {
+           return `
+    <div class="profile-card student-view">
+        <div class="row">
+            <div class="col-md-12 d-flex align-items-center mb-4">
+                <img src="${data.ProfileImgPath || '/Content/images/default-student.png'}" class="rounded-circle border" style="width:80px; height:80px;">
+                <div class="ml-3">
+                    <h3 class="mb-0">${data.FullName}</h3>
+                    <small class="text-muted">Student ID: #STU-${data.StudentId}</small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded">
+                    <h6>Contact Info</h6>
+                    <p class="mb-1"><strong>Phone:</strong> ${data.ContactNumber}</p>
+                    <p><strong>Email:</strong> ${data.Email}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                 <div class="p-3 bg-light rounded">
+                    <h6>Academic Info</h6>
+                    <p class="mb-1"><strong>Current Class:</strong> ${data.ClassName || 'N/A'}</p>
+                    <p><strong>Institute:</strong> ${data.InstituteName || 'N/A'}</p>
+                </div>
+            </div>
+        </div>
+    </div>`;
+       }
+
+    </script>
+}

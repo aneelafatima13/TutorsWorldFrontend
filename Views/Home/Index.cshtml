@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4">
+                <div class="shop__sidebar shadow-sm border rounded p-3 bg-white">
+
+                    <div class="mb-4">
+                        <h5 class="mb-3 font-weight-bold">Search</h5>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search" placeholder="Type here...">
+                            <div class="input-group-append" id="clear-search" style="display:none; cursor:pointer;">
+                                <span class="input-group-text bg-white text-danger border-right-0"><i class="fa fa-times"></i></span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text bg-secondary text-white border-0"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section mb-4">
+                        <h6 class="text-uppercase font-weight-bold small text-muted mb-2">Gender</h6>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="male" name="Gender" class="custom-control-input" value="Male">
+                            <label class="custom-control-label" for="male">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="female" name="Gender" class="custom-control-input" value="Female">
+                            <label class="custom-control-label" for="female">Female</label>
+                        </div>
+                    </div>
+
+
+
+                    <hr>
+
+                    <div class="filter-section mb-4">
+                        <h6 class="text-uppercase font-weight-bold small text-muted mb-2">Teaching Source</h6>
+                        <div class="d-flex flex-column">
+                            <div class="custom-control custom-checkbox mb-1">
+                                <input type="checkbox" class="custom-control-input" id="remote" value="0">
+                                <label class="custom-control-label" for="remote">Remote</label>
+                            </div>
+                            <div class="custom-control custom-checkbox mb-1">
+                                <input type="checkbox" class="custom-control-input" id="hybrid" value="1">
+                                <label class="custom-control-label" for="hybrid">Hybrid</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="onsite" value="2">
+                                <label class="custom-control-label" for="onsite">Onsite</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="filter-section mb-4">
+                        <h6 class="text-uppercase font-weight-bold small text-muted mb-2">Fee Structure</h6>
+                        <div class="d-flex flex-column">
+                            <div class="custom-control custom-checkbox mb-1">
+                                <input type="checkbox" class="custom-control-input" id="fee-hourly" name="FeeStructure" value="0">
+                                <label class="custom-control-label" for="fee-hourly">Hourly Basis</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox mb-1">
+                                <input type="checkbox" class="custom-control-input" id="fee-monthly" name="FeeStructure" value="1">
+                                <label class="custom-control-label" for="fee-monthly">Monthly Basis</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox mb-1">
+                                <input type="checkbox" class="custom-control-input" id="fee-yearly" name="FeeStructure" value="2">
+                                <label class="custom-control-label" for="fee-yearly">Yearly Basis</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="fee-recommended" name="FeeStructure" value="3">
+                                <label class="custom-control-label" for="fee-recommended">Parent/Student Recommended</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="filter-section mb-4">
+                        <h6 class="text-uppercase font-weight-bold small text-muted mb-2">Marital Status</h6>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="single" name="MaritalStatus" class="custom-control-input" value="Single">
+                            <label class="custom-control-label" for="single">Single</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="married" name="MaritalStatus" class="custom-control-input" value="Married">
+                            <label class="custom-control-label" for="married">Married</label>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="filter-section">
+                        <h6 class="text-uppercase font-weight-bold small text-muted mb-3">Filter By Classes</h6>
+
+                        <div class="list-group list-group-flush">
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-elementary" data-target="#sub-elementary" name="MainCategory" value="Elementary">
+                                    <label class="custom-control-label font-weight-bold" for="check-elementary">Elementary</label>
+                                </div>
+                                <div id="sub-elementary" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="nursery" name="Classes[]" value="Nursery">
+                                        <label class="custom-control-label" for="nursery"><small>Nursery</small></label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="prep" name="Classes[]" value="Prep">
+                                        <label class="custom-control-label" for="prep"><small>Prep</small></label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" class="custom-control-input" id="playgroup" name="Classes[]" value="Playgroup">
+                                        <label class="custom-control-label" for="playgroup"><small>Playgroup</small></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-primary" data-target="#sub-primary" name="MainCategory" value="Primary">
+                                    <label class="custom-control-label font-weight-bold" for="check-primary">Primary</label>
+                                </div>
+                                <div id="sub-primary" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="custom-control custom-checkbox mr-3"><input type="checkbox" class="custom-control-input" id="c1" name="Classes[]" value="Class 1"><label class="custom-control-label" for="c1"><small>Class 1</small></label></div>
+                                        <div class="custom-control custom-checkbox mr-3"><input type="checkbox" class="custom-control-input" id="c2" name="Classes[]" value="Class 2"><label class="custom-control-label" for="c2"><small>Class 2</small></label></div>
+                                        <div class="custom-control custom-checkbox mr-3"><input type="checkbox" class="custom-control-input" id="c3" name="Classes[]" value="Class 3"><label class="custom-control-label" for="c3"><small>Class 3</small></label></div>
+                                        <div class="custom-control custom-checkbox mr-3"><input type="checkbox" class="custom-control-input" id="c4" name="Classes[]" value="Class 4"><label class="custom-control-label" for="c4"><small>Class 4</small></label></div>
+                                        <div class="custom-control custom-checkbox mr-3"><input type="checkbox" class="custom-control-input" id="c5" name="Classes[]" value="Class 5"><label class="custom-control-label" for="c5"><small>Class 5</small></label></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-middle" data-target="#sub-middle" name="MainCategory" value="Middle">
+                                    <label class="custom-control-label font-weight-bold" for="check-middle">Middle</label>
+                                </div>
+                                <div id="sub-middle" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input" id="c6" name="Classes[]" value="Class 6"><label class="custom-control-label" for="c6"><small>Class 6</small></label></div>
+                                    <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input" id="c7" name="Classes[]" value="Class 7"><label class="custom-control-label" for="c7"><small>Class 7</small></label></div>
+                                    <div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input" id="c8" name="Classes[]" value="Class 8"><label class="custom-control-label" for="c8"><small>Class 8</small></label></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-secondary" data-target="#sub-secondary" name="MainCategory" value="Secondary">
+                                    <label class="custom-control-label font-weight-bold" for="check-secondary">Secondary</label>
+                                </div>
+                                <div id="sub-secondary" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="custom-control custom-checkbox mb-1"><input type="checkbox" class="custom-control-input" id="m-arts" name="Classes[]" value="Matric Arts"><label class="custom-control-label" for="m-arts"><small>Matric (Arts)</small></label></div>
+                                    <div class="custom-control custom-checkbox mb-1"><input type="checkbox" class="custom-control-input" id="m-sci" name="Classes[]" value="Matric Science"><label class="custom-control-label" for="m-sci"><small>Matric (Science)</small></label></div>
+                                    <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="o-lvl" name="Classes[]" value="O-Levels"><label class="custom-control-label" for="o-lvl"><small>O-Levels Group</small></label></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-college" data-target="#sub-college" name="MainCategory" value="Higher Secondary">
+                                    <label class="custom-control-label font-weight-bold" for="check-college">Higher Secondary</label>
+                                </div>
+                                <div id="sub-college" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="custom-control custom-checkbox mb-1"><input type="checkbox" class="custom-control-input" id="a-lvl" name="Classes[]" value="A-Levels"><label class="custom-control-label" for="a-lvl"><small>A-Levels Group</small></label></div>
+                                    <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="fsc" name="Classes[]" value="FA-FSC-ICS"><label class="custom-control-label" for="fsc"><small>FA / F.Sc / ICS Group</small></label></div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input main-class" id="check-university" data-target="#sub-university" name="MainCategory" value="University">
+                                    <label class="custom-control-label font-weight-bold" for="check-university">University</label>
+                                </div>
+                                <div id="sub-university" class="sub-group pl-4 py-2 mt-1 bg-light rounded" style="display:none;">
+                                    <div class="custom-control custom-checkbox mb-1"><input type="checkbox" class="custom-control-input" id="bs" name="Classes[]" value="BS Honours"><label class="custom-control-label" for="bs"><small>BS Honours</small></label></div>
+                                    <div class="custom-control custom-checkbox mb-1"><input type="checkbox" class="custom-control-input" id="ms" name="Classes[]" value="Masters"><label class="custom-control-label" for="ms"><small>Masters</small></label></div>
+                                    <div class="custom-control custom-checkbox"><input type="checkbox" class="custom-control-input" id="phd" name="Classes[]" value="MPhil-PhD"><label class="custom-control-label" for="phd"><small>MPhil / PhD Level</small></label></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+            <div class="col-lg-9 col-md-9" id="tutorslist">
+                <div class="row">
+
+
+                </div>
+                <div class="col-lg-12 text-center">
+                    <div class="pagination__option" id="tutorspagination">
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#"><i class="fa fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $(document).on('change', '.main-class', function () {
+            var targetDiv = $(this).data('target');
+            if ($(this).is(':checked')) {
+                $(targetDiv).slideDown(200);
+            } else {
+                $(targetDiv).slideUp(200);
+                // Clean up: Uncheck sub-options if the parent is unchecked
+                $(targetDiv).find('input[type="checkbox"]').prop('checked', false);
+            }
+        });
+
+        $(document).ready(function () {
+            loadTutors(1);
+
+            $('#search').on('input', function () {
+                if ($(this).val().length > 0) {
+                    $('#clear-search').show();
+                } else {
+                    $('#clear-search').hide();
+                }
+            });
+
+            // 2. Clear Search Functionality
+            $('#clear-search').on('click', function () {
+                $('#search').val('');        // Make it empty
+                $(this).hide();              // Hide the X icon
+                loadTutors(1);               // Refresh list with empty search
+            });
+            // 1. Trigger on Search Icon Click
+            $('.input-group-text').on('click', function () {
+                loadTutors(1);
+            });
+
+            $('input[type="radio"], input[type="checkbox"]').on('change', function () {
+                loadTutors(1);
+            });
+
+            // 4. Toggle Visibility for Sub-classes (Your existing logic)
+            $('.main-class').on('change', function () {
+                var target = $(this).data('target');
+                if ($(this).is(':checked')) {
+                    $(target).slideDown();
+                } else {
+                    $(target).slideUp();
+                    // Optional: Uncheck sub-items if parent is unchecked
+                    $(target).find('input[type="checkbox"]').prop('checked', false);
+                }
+            });
+        });
+
+        function loadTutors(page) {
+    // Collect all filter data
+    var filterData = {
+        pageNumber: page,
+        rowsPerPage: 9,
+        searchTerm: $('#search').val(),
+        gender: $('input[name="Gender"]:checked').val(),
+        maritalStatus: $('input[name="MaritalStatus"]:checked').val(),
+        // Collect checked teaching sources
+        teachingSources: $('.filter-section:contains("Teaching Source") input:checkbox:checked').map(function() {
+            return $(this).val();
+        }).get().join(','),
+        // Collect checked fee structures
+        feeStructures: $('input[name="FeeStructure"]:checked').map(function() {
+            return $(this).val();
+        }).get().join(','),
+        // Collect checked classes
+        classes: $('input[name="Classes[]"]:checked').map(function() {
+            return $(this).val();
+        }).get().join(',')
+    };
+
+    $.ajax({
+        url: '@Url.Action("GetTutors", "Home")',
+        type: 'GET',
+        data: filterData,
+        success: function (response) {
+            if (response.success) {
+                renderTutorCards(response.data);
+                setupPagination(response.totalRecords, page);
+            }
+        },
+        error: function(err) {
+            console.error("Error loading tutors", err);
+        }
+    });
+        }
+
+
+        function renderTutorCards(tutors) {
+            var container = $("#tutorslist .row");
+            container.find('.col-lg-4').remove();
+
+            tutors.forEach(t => {
+                // 1. Fixed Property Casing (qualifications, tutorID, fullName)
+                var latestQual = (t.qualifications && t.qualifications.length > 0)
+                    ? t.qualifications[0].degree
+                    : "Expert Tutor";
+                let displayImage;
+                if (t.profileImgBytes) {
+                    // If bytes exist, use Base64
+                    displayImage = `data:image/jpeg;base64,${t.profileImgBytes}`;
+                } else {
+                    // Fallback to your local project image path
+                    displayImage = "/Content/img/BLACK NO IMG.png";
+                }
+
+                var tutorHtml = `
+<div class="col-lg-4 col-md-6">
+    <div class="product__item">
+        <div class="product__item__pic set-bg"
+             data-setbg="${displayImage}"
+             style="background-image: url('${displayImage}');">
+
+            <div class="label new">latest</div>
+            <ul class="product__hover">
+                <li><a href="${displayImage}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+            </ul>
+        </div> <div class="product__item__text">
+            <h6><a href="/Home/TutorDetails/${t.tutorID}">${t.fullName}</a></h6>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+            </div>
+            <div class="product__price">${latestQual}</div>
+        </div>
+    </div>
+</div>`;
+                container.prepend(tutorHtml);
+            });
+
+            if ($.fn.magnificPopup) {
+                $('.image-popup').magnificPopup({ type: 'image' });
+            }
+        }
+function setupPagination(totalRecords, activePage) {
+    var totalPages = Math.ceil(totalRecords / 9);
+    var pgContainer = $("#tutorspagination");
+    pgContainer.empty();
+
+    for (let i = 1; i <= totalPages; i++) {
+        var activeStyle = (i === activePage) ? "style='background: #ff0000; color: #fff;'" : "";
+        pgContainer.append(`<a href="javascript:void(0)" onclick="loadTutors(${i})" ${activeStyle}>${i}</a>`);
+    }
+
+    if(activePage < totalPages) {
+        pgContainer.append(`<a href="javascript:void(0)" onclick="loadTutors(${activePage + 1})"><i class="fa fa-angle-right"></i></a>`);
+    }
+}
+    </script>
+    }
+<!-- Shop Section End -->

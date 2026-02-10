@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "Tutor Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<section class="shop spad bg-light">
+    <div class="container">
+        <div class="row bg-white shadow-sm rounded p-4">
+            <div class="col-md-6 border-right">
+                <div class="d-flex align-items-center mb-4">
+                    <img id="tutor-img" src="~/Content/img/default-user.png" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" />
+                    <div class="ml-4">
+                        <h3 id="tutor-name" class="font-weight-bold mb-0">---</h3>
+                        <p id="tutor-city" class="text-muted"><i class="fa fa-map-marker"></i> ---</p>
+                        <div id="classes-container"></div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-user"></i> Personal Information</h5>
+                <div class="row mt-3">
+                    <div class="col-6"><strong>Email:</strong> <p id="tutor-email">---</p></div>
+                    <div class="col-6"><strong>Phone:</strong> <p id="tutor-phone">---</p></div>
+                    <div class="col-6"><strong>Gender:</strong> <p id="tutor-gender">---</p></div>
+                    <div class="col-6"><strong>Teaching:</strong> <p id="tutor-source">---</p></div>
+                </div>
+
+                <hr />
+
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-graduation-cap"></i> Qualifications</h5>
+                <div id="qualifications-list" class="mt-2"></div>
+
+                <hr />
+
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-briefcase"></i> Experience</h5>
+                <div id="experience-list" class="mt-2"></div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="font-weight-bold mb-0">Professional Resume</h5>
+                    <button class="btn btn-success btn-lg shadow-sm" onclick="hireTutor()">
+                        <i class="fa fa-paper-plane"></i> Hire This Tutor
+                    </button>
+                </div>
+
+                <div class="resume-viewer border rounded bg-dark" style="height: 600px; overflow: hidden;">
+                    <iframe id="resume-frame" src="" width="100%" height="100%" style="border:none;">
+                        <p>Your browser does not support iframes.</p>
+                    </iframe>
+                    <div id="no-resume" class="text-white text-center p-5" style="display:none;">
+                        <i class="fa fa-file-pdf-o fa-3x mb-3"></i>
+                        <p>No Resume provided by this tutor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    <script>
+        function hireTutor() {
+    var tid = '@ViewBag.TutorID';
+
+    $.ajax({
+        url: '@Url.Action("HireTutorProxy", "Home")',
+        type: 'POST',
+        data: { tutorId: tid },
+        success: function (response) {
+            if (response.success) {
+                alert(response.message);
+                window.location.href = '@Url.Action("LoginUserScreen", "LoginUser")';
+            } else {
+                if (response.redirectUrl) {
+                    alert(response.message);
+                    window.location.href = response.redirectUrl;
+                } else {
+                    alert("Error: " + response.message);
+                }
+            }
+        },
+        error: function () {
+            alert("Something went wrong with the server connection.");
+        }
+    });
+}
+        $(document).ready(function () {
+    // Get ID from ViewBag
+    var tutorId = '@ViewBag.TutorID';
+
+    if (tutorId) {
+        getTutorFullDetails(tutorId);
+    }
+});
+
+function getTutorFullDetails(id) {
+    $.ajax({
+        url: '/Home/GetTutorDetailsByIdProxy', // Your MVC proxy method
+        type: 'GET',
+        data: { id: id },
+        success: function (response) {
+            debugger;
+            console.log("Raw Response:", response);
+
+            // If the data is nested in arrays as shown in your log:
+            let actualData = response.data;
+
+            // If response.data is an array of arrays, we might need to drill down:
+            if (Array.isArray(actualData)) {
+                // Based on your log, the object might be at data[1][0] or similar
+                console.warn("Data is an array, attempting to extract first object...");
+                actualData = actualData[0];
+            }
+
+            if (response.success && actualData) {
+                renderDetails(actualData);
+            } else {
+                alert("Tutor data structure is invalid.");
+            }
+        },
+        error: function () {
+            console.log("Error fetching data");
+        }
+    });
+}
+
+        function renderDetails(data) {
+            if (!data) return;
+
+            // --- Left Column: Profile Info ---
+            $('#tutor-name').text(data.fullName || "Name Not Provided");
+            $('#tutor-city').html(`<i class="fa fa-map-marker"></i> ${data.city || 'N/A'}, ${data.country || ''}`);
+
+            // Check for nulls in contact info
+            $('#tutor-email').text(data.contactEmail || "No Email Provided");
+            $('#tutor-phone').text(data.contactNo || "No Phone Provided");
+            $('#tutor-gender').text(data.gender || "N/A");
+            $('#tutor-source').text(data.teachingSource || "N/A");
+
+            // Profile Image Logic
+            if (data.profileImgBytes && data.profileImgBytes.length > 10) {
+                $('#tutor-img').attr('src', 'data:image/png;base64,' + data.profileImgBytes);
+            } else {
+                // Fallback to default if bytes are empty
+                $('#tutor-img').attr('src', '/Content/img/default-user.png');
+            }
+
+            // Classes Badges
+            let classHtml = '';
+            if (data.classes && data.classes.length > 0) {
+                data.classes.forEach(c => {
+                    classHtml += `<span class="badge badge-primary mr-1 p-2">${c.className}</span>`;
+                });
+            }
+            $('#classes-container').html(classHtml || '<span class="text-muted">No classes listed</span>');
+
+            // Qualifications List
+            let qualHtml = '';
+            if (data.qualifications && data.qualifications.length > 0) {
+                data.qualifications.forEach(q => {
+                    qualHtml += `
+                <div class="mb-3 p-2 border-left border-primary">
+                    <h6 class="mb-0 font-weight-bold">${q.degree || 'Degree'}</h6>
+                    <p class="mb-0 text-muted small">${q.institute || 'Institute'} | Passing: ${q.passingYear || 'N/A'}</p>
+                    <p class="mb-0 small text-success">Percentage: ${q.percentage}%</p>
+                </div>`;
+                });
+            }
+            $('#qualifications-list').html(qualHtml || '<p class="text-muted">No qualifications listed</p>');
+
+            // Experience List (FIXED KEYS: expInstitute, expDuration)
+            let expHtml = '';
+            if (data.experiences && data.experiences.length > 0) {
+                data.experiences.forEach(e => {
+                    expHtml += `
+                <div class="mb-3 p-2 border-left border-success">
+                    <h6 class="mb-0 font-weight-bold">${e.expInstitute || 'Private Tutoring'}</h6>
+                    <p class="mb-0 text-muted small">Duration: ${e.expDuration || 'N/A'} Months</p>
+                </div>`;
+                });
+            }
+            $('#experience-list').html(expHtml || '<p class="text-muted">No experience listed</p>');
+
+            // --- Right Column: Resume ---
+            if (data.resumeBytes && data.resumeBytes.length > 10) {
+                const blob = b64toBlob(data.resumeBytes, 'application/pdf');
+                const blobUrl = URL.createObjectURL(blob);
+                $('#resume-frame').attr('src', blobUrl).show();
+                $('#no-resume').hide();
+            } else {
+                $('#resume-frame').hide();
+                $('#no-resume').show();
+            }
+        }
+        // Utility to convert Base64 string to Blob for PDF iframe
+        function b64toBlob(b64Data, contentType) {
+            const byteCharacters = atob(b64Data);
+            const byteArrays = [];
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            return new Blob(byteArrays, { type: contentType });
+        }
+    </script>
+}

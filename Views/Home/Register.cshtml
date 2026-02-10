@@ -1,0 +1,972 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    /* Red asterisk for required labels */
+    label[required]::after {
+        content: " *";
+        color: red;
+        font-weight: bold;
+    }
+
+    /* Error message styling */
+    .error-msg {
+        color: red;
+        font-size: 12px;
+        margin-top: 4px;
+        display: block;
+    }
+
+    /* Highlight input border on error */
+    .is-invalid {
+        border-color: red !important;
+    }
+</style>
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="shop__sidebar">
+                    <div class="sidebar__sizes">
+                        <div class="section-title">
+                            <h4>Register As</h4>
+                        </div>
+                        <div class="size__list" id="registerformtypes">
+                            <label for="Tutor">
+                                Tutor
+                                <input type="checkbox" id="Tutor">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="Student">
+                                Student
+                                <input type="checkbox" id="Student">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="Parent">
+                                Parent
+                                <input type="checkbox" id="Parent">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="row" id="TutorForm" style="display:none">
+                    <div class="col-lg-12">
+                        <h3 class="mb-4">Tutor Registration</h3>
+                        <form id="tutorSubmitForm" enctype="multipart/form-data">
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <h5>Personal Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Full Name</label>
+                                    <input type="text" class="form-control" name="FullName" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Profile Image</label>
+                                    <input type="file" class="form-control-file" name="ProfileImg" accept="image/*">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>CNIC</label>
+                                    <input type="text" class="form-control" name="CNIC" placeholder="e.g. 42101-XXXXXXX-X" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Gender</label><br />
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="Gender" id="male" value="Male" checked>
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="Gender" id="female" value="Female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Age</label>
+                                    <input type="number" class="form-control" name="Age" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Date of Birth</label>
+                                    <input type="date" class="form-control" name="DOB" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Religion</label>
+                                    <input type="text" class="form-control" name="Religion" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Nationality</label>
+                                    <input type="text" class="form-control" name="Nationality" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Marital Status</label><br />
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="MaritalStatus" id="single" value="Single" checked>
+                                        <label class="form-check-label" for="single">Single</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="MaritalStatus" id="married" value="Married">
+                                        <label class="form-check-label" for="married">Married</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>City</label>
+                                    <input type="text" class="form-control" name="City" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Province</label>
+                                    <input type="text" class="form-control" name="Province">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Country</label>
+                                    <input type="text" class="form-control" name="Country">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label required>Major Subjects to teach</label>
+                                    <textarea class="form-control" name="Subjects" rows="3"></textarea>
+
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Resume (PDF)</label>
+                                    <input type="file" class="form-control-file" name="ResumePdf" accept=".pdf">
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Contact Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Email Address</label>
+                                    <input type="email" class="form-control" name="ContactEmail" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Contact Number</label>
+                                    <input type="text" class="form-control" name="ContactNo" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Permanent Address</label>
+                                    <textarea class="form-control" name="PAddress" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Temporary Address</label>
+                                    <textarea class="form-control" name="TAddress" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Credentials Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Username</label>
+                                    <input type="text" class="form-control" name="Username" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Password</label>
+                                    <input type="password" class="form-control" name="Password" required>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label required>Major Qualifications</label>
+                                    <button type="button" class="btn btn-sm btn-success" id="addQualification">+ Add Degree</button>
+                                </div>
+                                <table class="table table-bordered mt-2" id="qualificationTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Institute (Uni/College/School)</th>
+                                            <th>Degree Name</th>
+                                            <th>Passing Year</th>
+                                            <th>% / CGPA</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="Institute[]" class="form-control"></td>
+                                            <td><input type="text" name="Degree[]" class="form-control"></td>
+                                            <td><input type="number" name="PassingYear[]" class="form-control"></td>
+                                            <td><input type="text" name="Percentage[]" class="form-control"></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr />
+
+                            <div class="mt-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label required>Teaching Experience</label>
+                                    <button type="button" class="btn btn-sm btn-success" id="addExperience">+ Add Experience</button>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="d-block">Total of Experience</label>
+                                    <div class="d-flex align-items-center">
+                                        <input type="number" name="TotalExperienceinYears" class="form-control mr-2" style="width: 100px;" placeholder="0">
+                                        <span class="mr-3">Years</span>
+
+                                        <input type="number" name="TotalExperienceinMonths" class="form-control mr-2" style="width: 100px;" placeholder="0">
+                                        <span>Months</span>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered mt-2" id="experienceTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Institute</th>
+                                            <th>Starting Date</th>
+                                            <th>Ending Date</th>
+                                            <th>Duration (Months)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" name="ExpInstitute[]" class="form-control"></td>
+                                            <td><input type="date" name="ExpStart[]" class="form-control"></td>
+                                            <td><input type="date" name="ExpEnd[]" class="form-control"></td>
+                                            <td><input type="text" name="ExpDuration[]" class="form-control" placeholder="e.g. 12"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label required>Teaching Source</label>
+                                    <select class="form-control" name="TeachingSource" required multiple>
+                                        <option value="0">Remote</option>
+                                        <option value="1">Onsite</option>
+                                        <option value="2">Hybrid</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label required>Fee Structure</label>
+                                    <select class="form-control" name="FeeType" required>
+                                        <option value="0">Hourly Basis</option>
+                                        <option value="1">Monthly Basis</option>
+                                        <option value="2">Yearly Basis</option>
+                                        <option value="3">Parent Easyness</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label><strong>Classes You Can Teach:</strong> (Check to expand sub-levels)</label><br />
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-elementary" name="MainCategory" value="Elementary"> Elementary</label>
+                                    </div>
+                                    <div id="sub-elementary" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Nursery"> Nursery</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Prep"> Prep</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Playgroup"> Playgroup</label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-primary" name="MainCategory" value="Primary"> Primary</label>
+                                    </div>
+                                    <div id="sub-primary" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 1"> Class 1</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 2"> Class 2</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 3"> Class 3</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 4"> Class 4</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 5"> Class 5</label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-middle" name="MainCategory" value="Middle"> Middle</label>
+                                    </div>
+                                    <div id="sub-middle" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 6"> Class 6</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 7"> Class 7</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Class 8"> Class 8</label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-secondary" name="MainCategory" value="Secondary"> Secondary</label>
+                                    </div>
+                                    <div id="sub-secondary" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Matric Arts"> Matric (Arts)</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Matric Science"> Matric (Science)</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="O-Levels"> O-Levels Group</label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-college" name="MainCategory" value="Higher Secondary"> Higher Secondary</label>
+                                    </div>
+                                    <div id="sub-college" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="A-Levels"> A-Levels Group</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="FA-FSC-ICS"> FA / F.Sc / ICS Group</label>
+                                    </div>
+
+                                    <div class="form-check-inline">
+                                        <label><input type="checkbox" class="main-class" data-target="#sub-university" name="MainCategory" value="University"> Higher Education (University)</label>
+                                    </div>
+                                    <div id="sub-university" class="sub-group ml-4" style="display:none; background: #f9f9f9; padding: 10px; border-radius: 5px;">
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="BS Honours"> BS Honours</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="Masters"> Masters</label>
+                                        <label class="mr-2"><input type="checkbox" name="Classes[]" value="MPhil-PhD"> MPhil / PhD Level</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary px-5">Submit Registration</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <form id="RegisterForm" enctype="multipart/form-data" style="display:none">
+
+                    <div id="StudentForm">
+                        <div class="col-lg-12">
+                            <h3 class="mb-4">Student Registration</h3>
+
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <h5>Personal Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Full Name</label>
+                                    <input type="text" class="form-control" name="sFullName" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Profile Image</label>
+                                    <input type="file" class="form-control-file" name="sProfileImg" accept="image/*">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label required>Gender</label><br />
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sGender" id="male" value="Male" checked>
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sGender" id="female" value="Female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Age</label>
+                                    <input type="number" class="form-control" name="sAge" id="stuAge" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Date of Birth</label>
+                                    <input type="date" class="form-control" name="sDOB" required>
+                                </div>
+
+
+                                <div class="col-md-6 form-group" id="cnicGroup" style="display:none">
+                                    <label required>CNIC</label>
+                                    <input type="text" class="form-control" name="sCNIC" placeholder="e.g. 42101-XXXXXXX-X">
+                                </div>
+
+                                <div class="col-md-6 form-group" id="bformGroup" style="display:none">
+                                    <label required>BForm No</label>
+                                    <input type="text" class="form-control" name="sBformNo" placeholder="e.g. 42101-XXXXXXX-X">
+                                </div>
+
+                                <div class="col-md-6 form-group" id="maritalGroup" style="display:none">
+                                    <label required>Marital Status</label><br />
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sMaritalStatus" value="Single">
+                                        <label class="form-check-label">Single</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sMaritalStatus" value="Married">
+                                        <label class="form-check-label">Married</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label required>Religion</label>
+                                    <input type="text" class="form-control" name="sReligion" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Nationality</label>
+                                    <input type="text" class="form-control" name="sNationality" required>
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label required>City</label>
+                                    <input type="text" class="form-control" name="sCity" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Province</label>
+                                    <input type="text" class="form-control" name="sProvince">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Country</label>
+                                    <input type="text" class="form-control" name="sCountry">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Class</label>
+                                    <input type="text" class="form-control" name="sClass">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Insitute</label>
+                                    <input type="text" class="form-control" name="sInsitute">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label required>Target Subjects</label>
+                                    <textarea class="form-control" name="sTargitSubjects" rows="3"></textarea>
+
+                                </div>
+
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Contact Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Email Address</label>
+                                    <input type="email" class="form-control" name="sContactEmail" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Contact Number</label>
+                                    <input type="text" class="form-control" name="sContactNo" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Permanent Address</label>
+                                    <textarea class="form-control" name="sPAddress" rows="3" required></textarea>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Temporary Address</label>
+                                    <textarea class="form-control" name="sTAddress" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5>Credentials Info</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label required>Username</label>
+                                    <input type="text" class="form-control" name="sUsername" required>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label required>Password</label>
+                                    <input type="password" class="form-control" name="sPassword" required>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div id="GardianForm">
+                        <div class="col-lg-12">
+                            <h3 class="mb-4">Gardian Registration</h3>
+                               <div class="d-flex justify-content-between align-items-center mt-4">
+                                    <h5>Personal Info</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label required>Full Name</label>
+                                        <input type="text" class="form-control" name="pFullName" required>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label required>CNIC</label>
+                                        <input type="text" class="form-control" name="pCNIC" placeholder="e.g. 42101-XXXXXXX-X" required>
+                                    </div>
+
+                                    <div class="col-md-6 form-group">
+                                        <label required>Gender</label><br />
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pGender" id="male" value="Male" checked>
+                                            <label class="form-check-label" for="male">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pGender" id="female" value="Female">
+                                            <label class="form-check-label" for="female">Female</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Age</label>
+                                        <input type="number" class="form-control" name="pAge" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Date of Birth</label>
+                                        <input type="date" class="form-control" name="pDOB" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Religion</label>
+                                        <input type="text" class="form-control" name="pReligion" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Nationality</label>
+                                        <input type="text" class="form-control" name="pNationality" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Marital Status</label><br />
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pMaritalStatus" id="single" value="Single" checked>
+                                            <label class="form-check-label" for="single">Single</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="pMaritalStatus" id="married" value="Married">
+                                            <label class="form-check-label" for="married">Married</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>City</label>
+                                        <input type="text" class="form-control" name="pCity" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Province</label>
+                                        <input type="text" class="form-control" name="pProvince">
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Country</label>
+                                        <input type="text" class="form-control" name="pCountry">
+                                    </div>
+
+
+                                </div>
+
+                                <hr />
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Contact Info</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label required>Email Address</label>
+                                        <input type="email" class="form-control" name="pContactEmail" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Contact Number</label>
+                                        <input type="text" class="form-control" name="pContactNo" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Permanent Address</label>
+                                        <textarea class="form-control" name="pPAddress" rows="3" required></textarea>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Temporary Address</label>
+                                        <textarea class="form-control" name="pTAddress" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <hr />
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>Credentials Info</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <label required>Username</label>
+                                        <input type="text" class="form-control" name="pUsername" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label required>Password</label>
+                                        <input type="password" class="form-control" name="pPassword" required>
+                                    </div>
+                                </div>
+                               
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-primary px-5">
+                            Submit Registration
+                        </button>
+                    </div>
+
+                </form>
+
+               
+
+               
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+           $('#tutorSubmitForm').on('submit', function (e) {
+    e.preventDefault();
+
+    // Clear previous errors
+    $('.error-msg').remove();
+    $('.form-control').removeClass('is-invalid');
+
+    var isValid = true;
+
+            $(this).find('input[required], select[required], textarea[required]').each(function () {
+                   var $el = $(this);
+
+                   if ($el.val() === "" || $el.val() === null) {
+                       isValid = false;
+                       $el.addClass('is-invalid');
+
+                       // Find the text of the label associated with this input
+                       var labelText = $el.closest('.form-group').find('label').text().replace('*', '').trim();
+                       $el.after(`<span class="error-msg text-danger" style="display:block;">${labelText} is required.</span>`);
+                   }
+               });
+               if (!$("input[name='Gender']:checked").val()) {
+                   isValid = false;
+                   $('#gender-container').append('<span class="error-msg text-danger">Please select a gender.</span>');
+               }
+    if (!isValid) {
+        // Scroll to the first error
+        $('html, body').animate({
+            scrollTop: ($('.is-invalid').first().offset().top - 100)
+        }, 500);
+        return false;
+    }
+
+    // --- IF VALID, PROCEED WITH DATA COLLECTION ---
+    var formData = new FormData();
+
+    // 1. Add simple fields
+    $(this).find('input[type="text"], input[type="number"], input[type="date"], input[type="password"], input[type="email"], select, textarea').each(function () {
+        if (this.name && !this.name.includes('[]') &&
+            this.name !== 'TotalExperienceinYears' &&
+            this.name !== 'TotalExperienceinMonths' &&
+            this.name !== 'TeachingSource') {
+            formData.append(this.name, $(this).val());
+        }
+    });
+
+    // 2. Radios (Gender, MaritalStatus)
+    formData.append("Gender", $("input[name='Gender']:checked").val());
+    formData.append("MaritalStatus", $("input[name='MaritalStatus']:checked").val());
+
+    // 3. Files
+    var pImg = $("input[name='ProfileImg']")[0].files[0];
+    var rPdf = $("input[name='ResumePdf']")[0].files[0];
+    if(pImg) formData.append("ProfileImg", pImg);
+    if(rPdf) formData.append("ResumePdf", rPdf);
+
+    // 4. Qualifications
+    $('#qualificationTable tbody tr').each(function (index, tr) {
+        formData.append(`Qualifications[${index}].Institute`, $(tr).find('input[name="Institute[]"]').val());
+        formData.append(`Qualifications[${index}].Degree`, $(tr).find('input[name="Degree[]"]').val());
+        formData.append(`Qualifications[${index}].PassingYear`, $(tr).find('input[name="PassingYear[]"]').val());
+        formData.append(`Qualifications[${index}].Percentage`, $(tr).find('input[name="Percentage[]"]').val());
+    });
+
+    // 5. Experience
+    $('#experienceTable tbody tr').each(function (index, tr) {
+        formData.append(`Experiences[${index}].ExpInstitute`, $(tr).find('input[name="ExpInstitute[]"]').val());
+        formData.append(`Experiences[${index}].ExpStart`, $(tr).find('input[name="ExpStart[]"]').val());
+        formData.append(`Experiences[${index}].ExpEnd`, $(tr).find('input[name="ExpEnd[]"]').val());
+        formData.append(`Experiences[${index}].ExpDuration`, $(tr).find('input[name="ExpDuration[]"]').val());
+    });
+
+    // 6. Classes List
+    $('input[name="Classes[]"]:checked').each(function (index, item) {
+        formData.append(`Classes[${index}]`, $(item).val());
+    });
+
+    // 7. Combined Experience String
+    var years = $('input[name="TotalExperienceinYears"]').val() || 0;
+    var months = $('input[name="TotalExperienceinMonths"]').val() || 0;
+    var experienceString = (years > 0 ? years + " Years " : "") + (months > 0 ? months + " Months" : "");
+    formData.append("TotalExperienceYears", experienceString.trim() || "No Experience");
+
+    // 8. Join Multiple Teaching Sources
+    var sources = $('select[name="TeachingSource"]').val();
+    formData.append("TeachingSource", sources ? sources.join(", ") : "");
+
+    // 9. AJAX Call
+    $.ajax({
+        url: '@Url.Action("RegisterTutor", "Home")',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response.success) {
+                alert("Tutor Registered Successfully!");
+                window.location.reload();
+            } else {
+                // If username check fails in Backend, show it as an alert or handle error
+                alert(response.message);
+            }
+        },
+        error: function (xhr) {
+            // Handle the 400 Bad Request from Username Check
+            try {
+                var err = JSON.parse(xhr.responseText);
+                alert(err.message);
+            } catch(e) {
+                alert("An error occurred. Check the console.");
+            }
+        }
+    });
+});
+
+        });
+        $(document).ready(function () {
+
+            $('#stuAge').on('input', function () {
+                let age = parseInt(this.value);
+                if (!age) return;
+
+                if (age < 18) {
+                    $('#GardianForm').slideDown();
+                    makeGuardianRequired(true);
+                } else if (registerMode === 'student') {
+                    $('#GardianForm').slideUp();
+                    makeGuardianRequired(false);
+                }
+            });
+              @*$('#StudentSubmitForm').on('submit', function (e) {
+    e.preventDefault(); // ✅ ALWAYS FIRST
+
+    let stuAge = parseInt($("#stuAge").val());
+
+    // Show guardian form first
+    if (stuAge <= 18 && !$('#GardianForm').is(':visible')) {
+        $('#GardianForm').show();
+        $('html, body').animate({
+            scrollTop: $('#GardianForm').offset().top - 100
+        }, 500);
+        return;
+    }
+
+    $('.error-msg').remove();
+    $('.form-control').removeClass('is-invalid');
+
+    let isValid = true;
+
+    // ================= STUDENT VALIDATION =================
+    $('#StudentSubmitForm')
+        .find('input[required], textarea[required], select[required]')
+        .each(function () {
+            if (!$(this).val()) {
+                isValid = false;
+                $(this).addClass('is-invalid');
+                let label = $(this).closest('.form-group').find('label').text();
+                $(this).after(<span class="error-msg text-danger">${label} is required</span>);
+            }
+        });
+
+    // ================= GUARDIAN VALIDATION =================
+    if (stuAge >= 18) {
+        $('#GardianForm')
+            .find('input[required], textarea[required], select[required]')
+            .each(function () {
+                if (!$(this).val()) {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                    let label = $(this).closest('.form-group').find('label').text();
+                    $(this).after(<span class="error-msg text-danger">${label} is required</span>);
+                }
+            });
+    }
+
+    if (!isValid) {
+        $('html, body').animate({
+            scrollTop: $('.is-invalid').first().offset().top - 100
+        }, 500);
+        return;
+    }
+
+    // ================= FORM DATA =================
+    let formData = new FormData();
+
+    // Student fields
+    $('#StudentSubmitForm')
+        .find('input, textarea, select')
+        .each(function () {
+            if (this.type !== "file") {
+                formData.append(this.name, $(this).val());
+            }
+        });
+
+    formData.append("StudentGender", $("input[name='sGender']:checked").val());
+    formData.append("StudentMaritalStatus", $("input[name='sMaritalStatus']:checked").val());
+
+    let img = $("input[name='sProfileImg']")[0].files[0];
+    if (img) formData.append("ProfileImg", img);
+
+    // Guardian fields
+    if (stuAge >= 18) {
+        $('#GardianForm')
+            .find('input, textarea, select')
+            .each(function () {
+                formData.append(this.name, $(this).val());
+            });
+
+        formData.append("ParentGender", $("input[name='pGender']:checked").val());
+        formData.append("ParentMaritalStatus", $("input[name='pMaritalStatus']:checked").val());
+    }
+
+    // ================= AJAX =================
+    $.ajax({
+        url: '@Url.Action("RegisterStudent", "Student")',
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            if (res.success) {
+                alert("Registration Successful!");
+                window.location.reload();
+            } else {
+                alert(res.message);
+            }
+        },
+        error: function () {
+            alert("Server error occurred.");
+        }
+    });
+});*@
+
+           $('#RegisterForm').on('submit', function (e) {
+    e.preventDefault();
+
+    $('.error-msg').remove();
+    $('.is-invalid').removeClass('is-invalid');
+
+    let isValid = true;
+
+    $('#RegisterForm')
+        .find(':input:visible[required]')
+        .each(function () {
+            if (!$(this).val()) {
+                isValid = false;
+                $(this).addClass('is-invalid');
+
+                let label = $(this).closest('.form-group').find('label').text();
+                $(this).after(`<span class="error-msg text-danger">${label} is required</span>`);
+            }
+        });
+
+    if (!isValid) return;
+
+    let formData = new FormData(this);
+
+    $.ajax({
+        url: '@Url.Action("RegisterStudent", "Student")',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (res) {
+            alert(res.success ? "Registered Successfully" : res.message);
+            location.reload();
+        }
+    });
+});
+
+        });
+        let registerMode = null;
+
+        function selectMode(mode) {
+            registerMode = mode;
+
+            $('#StudentForm, #GardianForm').hide();
+            makeGuardianRequired(false);
+
+            if (mode === 'student') {
+                $('#StudentForm').show();
+            }
+
+            if (mode === 'parent') {
+                $('#StudentForm').show();
+                $('#GardianForm').show();
+                makeGuardianRequired(true);
+            }
+        }
+
+        function makeGuardianRequired(required) {
+            $('#GardianForm')
+                .find('input, textarea, select')
+                .prop('required', required);
+        }
+
+        $(document).on('change', '.main-class', function () {
+            var targetDiv = $(this).data('target');
+            if ($(this).is(':checked')) {
+                $(targetDiv).slideDown(200);
+            } else {
+                $(targetDiv).slideUp(200);
+                // Clean up: Uncheck sub-options if the parent is unchecked
+                $(targetDiv).find('input[type="checkbox"]').prop('checked', false);
+            }
+        });
+
+        $(document).on('click', '#addQualification', function () {
+            var newRow = `<tr>
+        <td><input type="text" name="Institute[]" class="form-control" required></td>
+        <td><input type="text" name="Degree[]" class="form-control" required></td>
+        <td><input type="number" name="PassingYear[]" class="form-control"></td>
+        <td><input type="text" name="Percentage[]" class="form-control"></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">-</button></td>
+    </tr>`;
+            $('#qualificationTable tbody').append(newRow);
+        });
+
+        $(document).on('click', '#addExperience', function () {
+            var newRow = `<tr>
+        <td><input type="text" name="ExpInstitute[]" class="form-control"></td>
+        <td><input type="date" name="ExpStart[]" class="form-control"></td>
+        <td><input type="date" name="ExpEnd[]" class="form-control"></td>
+        <td><input type="text" name="ExpDuration[]" class="form-control"></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">-</button></td>
+    </tr>`;
+            $('#experienceTable tbody').append(newRow);
+        });
+
+        // Remove row handler for both tables
+        $(document).on('click', '.remove-row', function () {
+            $(this).closest('tr').remove();
+        });
+        $('#registerformtypes input[type="checkbox"]').change(function () {
+
+            const selectedId = this.id.toLowerCase();
+            const isChecked = this.checked;
+
+            // behave like radio
+            $('#registerformtypes input[type="checkbox"]').not(this).prop('checked', false);
+
+            // hide everything
+            $('#TutorForm').hide();
+            $('#RegisterForm').hide();
+            $('#StudentForm').hide();
+            $('#GardianForm').hide();
+
+            if (!isChecked) return;
+
+            if (selectedId === 'tutor') {
+                $('#TutorForm').show();
+                return;
+            }
+
+            // student or parent
+            $('#RegisterForm').show();
+            selectMode(selectedId);
+        });
+
+    </script>
+}

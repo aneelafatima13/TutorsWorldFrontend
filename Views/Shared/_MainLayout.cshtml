@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Find Tutor</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="@Url.Content("~/content/css/bootstrap.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/font-awesome.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/elegant-icons.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/jquery-ui.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/magnific-popup.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/owl.carousel.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/slicknav.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/content/css/style.css")" type="text/css">
+</head>
+
+
+<body>
+    @{
+        var userCookie = Request.Cookies["UserProfile"];
+        string displayName = userCookie != null ? userCookie["FullName"] : "Guest";
+    }
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+        <div class="offcanvas__close">+</div>
+        <ul class="offcanvas__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <li>
+                <a href="#">
+                    <span class="icon_heart_alt"></span>
+                    <div class="tip">2</div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <span class="icon_bag_alt"></span>
+                    <div class="tip">2</div>
+                </a>
+            </li>
+        </ul>
+        <div class="offcanvas__logo">
+            <h2>Find Tutor</h2>
+            @*<a href="./index.html"><img src="@Url.Content("~/Content/img/logo.png")" alt=""></a>*@
+        </div>
+        <div id="mobile-menu-wrap"></div>
+        <div class="offcanvas__auth">
+            <a href="#">Login</a>
+            <a href="#">Register</a>
+        </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-lg-2">
+                    <div class="header__logo">
+                        <h3 style="font-weight:bold">Find Tutor</h3>
+                        @*<a href="./index.html"><img src="@Url.Content("~/Content/img/logo.png")" alt=""></a>*@
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-7">
+                    <nav class="header__menu">
+                        <ul>
+
+                            <li class="active"><a href="@Url.Action("Index", "Home")">Tutors</a></li>
+                            @{
+                                if (userCookie != null && !string.IsNullOrEmpty(userCookie["UserId"]))
+                                {
+                                    <li class="active"><a href="@Url.Action("LoginUserScreen", "LoginUser")">Login User Interface</a></li>
+
+                                }
+                            }
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__right">
+                        <div class="header__right__auth">
+                            @{
+                                if (userCookie != null && !string.IsNullOrEmpty(userCookie["UserId"]))
+                                {
+                                    <span class="mr-2"><strong>@userCookie["FullName"]</strong></span>
+                                    <a href="@Url.Action("Logout", "Home")" class="text-danger">Logout</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Login", "Home")">Login</a>
+                                    <a href="@Url.Action("Register", "Home")">Register</a>
+                                }
+                            }
+                        </div>
+                        <ul class="header__right__widget">
+                            <li><span class="icon_search search-switch"></span></li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon_heart_alt"></span>
+                                    <div class="tip">2</div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon_bag_alt"></span>
+                                    <div class="tip">2</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+    @RenderBody()
+    <!-- Breadcrumb Begin -->
+    <!-- Breadcrumb End -->
+    <!-- Footer Section Begin -->
+    <footer class="footer">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    <div class="footer__copyright__text">
+                        <p>
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
+                    </div>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search End -->
+    <!-- Js Plugins -->
+    <script src="@Url.Content("~/content/js/jquery-3.3.1.min.js")"></script>
+    <script src="@Url.Content("~/content/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/content/js/jquery.magnific-popup.min.js")"></script>
+    <script src="@Url.Content("~/content/js/jquery-ui.min.js")"></script>
+    <script src="@Url.Content("~/content/js/mixitup.min.js")"></script>
+    <script src="@Url.Content("~/content/js/jquery.countdown.min.js")"></script>
+    <script src="@Url.Content("~/content/js/jquery.slicknav.js")"></script>
+    <script src="@Url.Content("~/content/js/owl.carousel.min.js")"></script>
+    <script src="@Url.Content("~/content/js/jquery.nicescroll.min.js")"></script>
+    <script src="@Url.Content("~/content/js/main.js")"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<section class="shop spad">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-7">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h3>Login</h3>
+                            <p class="text-muted">Please enter your credentials</p>
+                        </div>
+
+                        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" name="Username" class="form-control" placeholder="Enter Username" required />
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label class="form-label">Password</label>
+                                <div class="input-group">
+                                    <input type="password" id="txtPassword" name="Password" class="form-control" placeholder="Enter Password" required />
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="fa fa-eye" id="eyeIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="loginMessage" class="mt-3 text-center"></div>
+
+                            <div class="d-grid">
+                                <button type="button" id="btnLogin" class="btn btn-primary btn-block">Login</button>
+                            </div>
+
+
+                            @*<div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>*@
+                        }
+
+                        <div class="mt-4 text-center">
+                            <small>Don't have an account? <a href="@Url.Action("Register", "Account")">Sign Up</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Ensures the section takes up significant height to show vertical centering if needed */
+    .spad {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .card {
+        border-radius: 10px;
+    }
+
+    .btn-primary {
+        background-color: #111111; /* Matches common 'shop' template colors */
+        border: none;
+        padding: 12px;
+    }
+
+        .btn-primary:hover {
+            background-color: #333333;
+        }
+</style>
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+    $(document).ready(function () {
+
+        // 1. Password Toggle Logic
+        $("#togglePassword").click(function () {
+            const passwordField = $("#txtPassword");
+            const icon = $("#eyeIcon");
+
+            if (passwordField.attr("type") === "password") {
+                passwordField.attr("type", "text");
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+            }
+        });
+
+        // 2. AJAX Login Submission
+        $("#btnLogin").click(function () {
+            var loginData = {
+                Username: $("input[name='Username']").val(),
+                Password: $("#txtPassword").val()
+            };
+
+            $("#loginMessage").html('<span class="text-info">Checking...</span>');
+
+            $.ajax({
+                url: '@Url.Action("SubmitLogin", "Home")',
+                type: 'POST',
+                data: loginData,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        $("#loginMessage").html('<span class="text-danger">' + response.message + '</span>');
+                    }
+                },
+                error: function () {
+                    $("#loginMessage").html('<span class="text-danger">An error occurred. Please try again.</span>');
+                }
+            });
+        });
+    });
+    </script>
+}
