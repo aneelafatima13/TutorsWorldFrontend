@@ -20,7 +20,6 @@ public class StudentController : Controller
             int studentAge = 0;
             DateTime studentDob;
 
-
             int.TryParse(Request.Form["sAge"], out studentAge);
             DateTime.TryParse(Request.Form["sDOB"], out studentDob);
 

@@ -36,38 +36,71 @@
 <input type="hidden" id="hdnCurrentConnectionId"/>
 
 <style>
-    /* Custom Tabs Styling */
-    .custom-tabs {
-        border-bottom: 2px solid #f1f1f1;
-        gap: 10px;
-    }
+   /* --- Navigation Styles --- */
+.tab-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+    gap: 2rem;
+}
 
-        .custom-tabs .nav-item {
-            margin-bottom: -2px; /* Align with bottom border */
-        }
+.tab-item { position: relative; }
 
-        .custom-tabs .nav-link {
-            border: none;
-            color: #6c757d;
-            font-weight: 600;
-            padding: 12px 20px;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
-            font-size: 0.95rem;
-        }
+.tab-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 4px;
+    text-decoration: none !important;
+    color: #718096;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
 
-            .custom-tabs .nav-link:hover {
-                color: #007bff;
-                background-color: #f8f9fa;
-                border-color: transparent;
-            }
+.tab-link:hover { color: #2d3748; }
 
-            .custom-tabs .nav-link.active {
-                color: #007bff !important;
-                background: transparent !important;
-                border-bottom: 2px solid #007bff !important;
-                border-radius: 0;
-            }
+.tab-link.active {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.tab-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #007bff;
+    border-radius: 10px 10px 0 0;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* --- Content Pane Styles --- */
+.custom-tab-pane {
+    display: none; /* Hidden by default */
+    animation: fadeIn 0.4s ease;
+}
+
+.custom-tab-pane.active {
+    display: block; /* Shown when active */
+}
+
+/* --- Animations --- */
+@@keyframes slideIn {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+}
+
+@@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
     /* Tab Content Box */
     #userDashboardContent {
@@ -123,7 +156,7 @@
 <section class="shop spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-4">
+            <div class="col-lg-3 col-md-3">
                 <div class="shop__sidebar shadow-sm border rounded p-3 bg-white">
                     <div class="sidebar__item">
                         <h4 id="connectionTitle">My Connections</h4>
@@ -137,47 +170,60 @@
             </div>
 
             <div class="col-lg-9 col-md-9" id="tabs">
-                <ul class="nav nav-tabs custom-tabs mb-4" id="userDashboardTabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab">
-                            <i class="fa fa-user-circle"></i>Profile
+                <ul class="tab-nav" id="userDashboardTabs">
+                    <li class="tab-item">
+                        <a class="tab-link active" data-target="#profile" href="javascript:void(0)">
+                            <i class="fa fa-user-circle"></i>
+                            <span>Profile</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="timetable-tab" data-toggle="tab" href="#timetable" role="tab">
-                            <i class="fa fa-calendar"></i>TimeTable
+                    <li class="tab-item">
+                        <a class="tab-link" data-target="#timetable" href="javascript:void(0)">
+                            <i class="fa fa-calendar"></i>
+                            <span>TimeTable</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="assignments-tab" data-toggle="tab" href="#assignments" role="tab">
-                            <i class="fa fa-tasks"></i>Assignments
+                    <li class="tab-item">
+                        <a class="tab-link" data-target="#assignments" href="javascript:void(0)">
+                            <i class="fa fa-tasks"></i>
+                            <span>Assignments</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="leaves-tab" data-toggle="tab" href="#leaves" role="tab">
-                            <i class="fa fa-envelope-open"></i>Leaves
+                    <li class="tab-item">
+                        <a class="tab-link" data-target="#leaves" href="javascript:void(0)">
+                            <i class="fa fa-envelope-open"></i>
+                            <span>Leaves</span>
                         </a>
                     </li>
                 </ul>
-                <div class="tab-content shadow-sm p-4 bg-white border rounded" id="userDashboardContent">
-                    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+
+                <div class="tab-content-wrapper">
+                    <div class="custom-tab-pane active" id="profile">
                         <div id="profile-data-container">
                             <div class="text-center py-5">
                                 <div class="spinner-border text-success" role="status"></div>
-                                <p>Selecting Connection...</p>
+                                <p class="mt-2">Selecting Connection...</p>
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="timetable" role="tabpanel">
+
+                    <div class="custom-tab-pane" id="timetable">
                         <h4>Weekly Schedule</h4>
                         <p>Your class schedule will appear here.</p>
                     </div>
-                    <div class="tab-pane fade" id="assignments" role="tabpanel">
+
+                    <div class="custom-tab-pane" id="assignments">
                         <h4>Assignments</h4>
                         <p>No pending assignments found.</p>
                     </div>
+
+                    <div class="custom-tab-pane" id="leaves">
+                        <h4>Leave Requests</h4>
+                        <p>History of your leave applications.</p>
+                    </div>
                 </div>
             </div>
+       
 
         </div>
     </div>
@@ -185,7 +231,29 @@
 
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
    <script>
+       $(document).ready(function () {
+           $('.tab-link').on('click', function (e) {
+               e.preventDefault();
+
+               // 1. Get the target ID from data-target
+               const target = $(this).data('target');
+
+               // 2. Update Active Class on Nav Links
+               $('.tab-link').removeClass('active');
+               $(this).addClass('active');
+
+               // 3. Update Active Class on Content Panes
+               $('.custom-tab-pane').removeClass('active');
+               $(target).addClass('active');
+
+               // Optional: Re-fetch data if profile tab is clicked and empty
+               if (target === "#profile" && $('#profile-data-container').is(':empty')) {
+                   // You can call your fetchConnectionProfile(id) here if needed
+               }
+           });
+       });
        $(document).ready(function () {
            loadSidebarConnections();
        });
@@ -256,14 +324,27 @@
            // Determine target role (If I am a Tutor, I am fetching a Student's profile)
            var myRole = $("#hdnUserRole").val();
            var targetRole = (myRole === "Tutor") ? "Student" : "Tutor";
+           if (targetRole === "Tutor") {
+               
+               $("#profile-data-container").html(getTutorTemplate());
 
+               
+           } else {
+               // Handle Student similarly
+               $("#profile-data-container").html(getStudentTemplate());
+           }
            // Call your Proxy (adjusting the URL to pass the selected ID and target Role)
            $.ajax({
                url: '/LoginUser/GetProfileDataProxybyId', // We'll create this simplified proxy next
                type: 'GET',
                data: { id: id, role: targetRole },
-               success: function (data) {
-                   renderProfile(data);
+               success: function (response) {
+                   if (response.success && response.data) {
+                       // Pass response.data (the actual profile) instead of the whole object
+                       renderProfile(response.data, targetRole);
+                   } else {
+                       $("#profile-data-container").html('<p class="text-warning">No profile data found.</p>');
+                   }
                },
                error: function () {
                    $("#profile-data-container").html('<p class="text-danger">Failed to load profile details.</p>');
@@ -271,47 +352,121 @@
            });
        }
 
-       function renderProfile(data) {
-           var myRole = $("#hdnUserRole").val();
-           var targetRole = (myRole === "Tutor") ? "Student" : "Tutor";
-
-           var html = "";
-
+       function renderProfile(data, targetRole) {
+           debugger;
            if (targetRole === "Tutor") {
-               html = renderTutorDesign(data);
+               // 1. Inject the structure
+               populateTutorData(data); // A 50ms delay is usually enough to let the browser register the new IDs
+
            } else {
-               html = renderStudentDesign(data);
+               renderStudentDesign(data)
            }
-
-           $("#profile-data-container").hide().html(html).fadeIn(400);
        }
-
-       function renderTutorDesign(data) {
+       // Function to just return the empty HTML shell
+       function getTutorTemplate() {
            return `
     <div class="profile-card tutor-view">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="text-center">
-                    <img src="${data.ProfileImgPath || '/Content/images/default-tutor.png'}" class="img-thumbnail rounded-circle mb-3" style="width:150px; height:150px; object-fit:cover;">
-                    <h4>${data.FullName}</h4>
-                    <span class="badge badge-success">Professional Tutor</span>
+        <div class="row bg-white shadow-sm rounded p-4">
+            <div class="col-md-12">
+                <div class="d-flex align-items-center mb-4">
+                    <img id="tutor-img" src="/Content/img/default-user.png" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" />
+                    <div class="ml-4">
+                        <h3 id="tutor-name" class="font-weight-bold mb-0">---</h3>
+                        <p id="tutor-city" class="text-muted"><i class="fa fa-map-marker"></i> ---</p>
+                        <div id="classes-container"></div>
+                    </div>
                 </div>
+                <hr />
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-user"></i> Personal Information</h5>
+                <div class="row mt-3">
+                    <div class="col-6"><strong>Email:</strong> <p id="tutor-email">---</p></div>
+                    <div class="col-6"><strong>Phone:</strong> <p id="tutor-phone">---</p></div>
+                    <div class="col-6"><strong>Gender:</strong> <p id="tutor-gender">---</p></div>
+                    <div class="col-6"><strong>Teaching:</strong> <p id="tutor-source">---</p></div>
+                </div>
+                <hr />
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-graduation-cap"></i> Qualifications</h5>
+                <div id="qualifications-list" class="mt-2"></div>
+                <hr />
+                <h5 class="font-weight-bold text-primary"><i class="fa fa-briefcase"></i> Experience</h5>
+                <div id="experience-list" class="mt-2"></div>
             </div>
-            <div class="col-md-8">
-                <h5><i class="fa fa-book-reader"></i> Teaching Details</h5>
-                <hr/>
-                <p><strong>Experience:</strong> ${data.ExperienceYears || 0} Years</p>
-                <p><strong>Qualification:</strong> ${data.HighestQualification || 'N/A'}</p>
-                <p><strong>Subjects:</strong> ${data.Subjects || 'N/A'}</p>
-                <div class="mt-3">
-                    <button class="btn btn-outline-primary btn-sm">Download CV</button>
-                    <button class="btn btn-success btn-sm">Schedule Class</button>
+            <div class="col-md-12 mt-4">
+                <h5 class="font-weight-bold mb-3">Professional Resume</h5>
+                <div class="resume-viewer border rounded bg-dark" style="height: 600px; overflow: hidden;">
+                    <iframe id="resume-frame" src="" width="100%" height="100%" style="border:none; display:none;"></iframe>
+                    <div id="no-resume" class="text-white text-center p-5">
+                        <i class="fa fa-file-pdf-o fa-3x mb-3"></i>
+                        <p>No Resume provided.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>`;
        }
 
+       // Function to fill the shell with data
+       function populateTutorData(data) {
+           if (!data) return;
+           console.log("tutor data", data);
+           // Basic Info
+           $('#tutor-name').text(data.fullName || "N/A");
+           $('#tutor-city').html(`<i class="fa fa-map-marker"></i> ${data.city || 'N/A'}`);
+           $('#tutor-email').text(data.contactEmail || "N/A");
+           $('#tutor-phone').text(data.contactNo || "N/A");
+           $('#tutor-gender').text(data.gender || "N/A");
+           $('#tutor-source').text(data.teachingSource || "N/A");
+
+           // Profile Image
+           if (data.profileImgBytes && data.profileImgBytes.length > 50) {
+               $('#tutor-img').attr('src', 'data:image/png;base64,' + data.profileImgBytes);
+           }
+
+           // Classes
+           let classHtml = (data.classes || []).map(c =>
+               `<span class="badge badge-primary mr-1 p-2">${c.className}</span>`
+           ).join('');
+           $('#classes-container').html(classHtml || 'No classes listed');
+
+           // Qualifications
+           let qualHtml = (data.qualifications || []).map(q => `
+        <div class="mb-3 p-2 border-left border-primary">
+            <h6 class="mb-0 font-weight-bold">${q.degree}</h6>
+            <p class="mb-0 text-muted small">${q.institute} | Year: ${q.passingYear}</p>
+            <p class="mb-0 small text-success">Percentage: ${q.percentage}%</p>
+        </div>`).join('');
+           $('#qualifications-list').html(qualHtml || 'No qualifications listed');
+
+           // Experience
+           let expHtml = (data.experiences || []).map(e => `
+        <div class="mb-3 p-2 border-left border-success">
+            <h6 class="mb-0 font-weight-bold">${e.expInstitute || 'Private Tutoring'}</h6>
+            <p class="mb-0 text-muted small">Duration: ${e.expDuration || '0'} Months</p>
+        </div>`).join('');
+           $('#experience-list').html(expHtml || 'No experience listed');
+
+           // Resume Logic (Note: your JSON shows "resumePdf: null", check "resumeBytes")
+           if (data.resumeBytes && data.resumeBytes.length > 50) {
+               const blob = b64toBlob(data.resumeBytes, 'application/pdf');
+               $('#resume-frame').attr('src', URL.createObjectURL(blob)).show();
+               $('#no-resume').hide();
+           }
+       }
+           // Keep your b64toBlob utility function as it was...
+           function b64toBlob(b64Data, contentType) {
+               const byteCharacters = atob(b64Data);
+               const byteArrays = [];
+               for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                   const slice = byteCharacters.slice(offset, offset + 512);
+                   const byteNumbers = new Array(slice.length);
+                   for (let i = 0; i < slice.length; i++) {
+                       byteNumbers[i] = slice.charCodeAt(i);
+                   }
+                   const byteArray = new Uint8Array(byteNumbers);
+                   byteArrays.push(byteArray);
+               }
+               return new Blob(byteArrays, { type: contentType });
+           }
        function renderStudentDesign(data) {
            return `
     <div class="profile-card student-view">

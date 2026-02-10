@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="@Url.Content("~/content/css/owl.carousel.min.css")" type="text/css">
     <link rel="stylesheet" href="@Url.Content("~/content/css/slicknav.min.css")" type="text/css">
     <link rel="stylesheet" href="@Url.Content("~/content/css/style.css")" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 
@@ -61,8 +64,18 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
+            @{
+                if (userCookie != null && !string.IsNullOrEmpty(userCookie["UserId"]))
+                {
+                    <span class="mr-2"><strong>@userCookie["FullName"]</strong></span>
+                    <a href="@Url.Action("Logout", "Home")">Logout</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login", "Home")">Login</a>
+                    <a href="@Url.Action("Register", "Home")">Register</a>
+                }
+            }
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -84,7 +97,7 @@
                             @{
                                 if (userCookie != null && !string.IsNullOrEmpty(userCookie["UserId"]))
                                 {
-                                    <li class="active"><a href="@Url.Action("LoginUserScreen", "LoginUser")">Login User Interface</a></li>
+                                    <li class="active"><a href="@Url.Action("LoginUserScreen", "LoginUser")">My Interface</a></li>
 
                                 }
                             }
@@ -98,7 +111,7 @@
                                 if (userCookie != null && !string.IsNullOrEmpty(userCookie["UserId"]))
                                 {
                                     <span class="mr-2"><strong>@userCookie["FullName"]</strong></span>
-                                    <a href="@Url.Action("Logout", "Home")" class="text-danger">Logout</a>
+                                    <a href="@Url.Action("Logout", "Home")">Logout</a>
                                 }
                                 else
                                 {
