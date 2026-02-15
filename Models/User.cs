@@ -65,4 +65,10 @@ namespace TutorsWorldFrontend.Models
         public Gardian Gardian { get; set; }
     }
 
+    public class StudentWithGardianVM
+    {
+        public Student Student { get; set; }
+        public Gardian Gardian { get; set; }
+    }
+
 }

@@ -339,6 +339,7 @@
                type: 'GET',
                data: { id: id, role: targetRole },
                success: function (response) {
+                   debugger;
                    if (response.success && response.data) {
                        // Pass response.data (the actual profile) instead of the whole object
                        renderProfile(response.data, targetRole);
@@ -359,7 +360,7 @@
                populateTutorData(data); // A 50ms delay is usually enough to let the browser register the new IDs
 
            } else {
-               renderStudentDesign(data)
+               populateStudentData(data)
            }
        }
        // Function to just return the empty HTML shell
@@ -404,7 +405,46 @@
         </div>
     </div>`;
        }
+       function getStudentTemplate() {
+           return `
+<div class="profile-card student-view">
+    <div class="row bg-white shadow-sm rounded p-4">
+        <div class="col-md-12">
+            <div class="d-flex align-items-center mb-4">
+                <img id="stu-img" src="/Content/img/default-student.png" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;" />
+                <div class="ml-4">
+                    <h3 id="stu-name" class="font-weight-bold mb-0">---</h3>
+                    <p class="text-muted"><i class="fa fa-id-card"></i> Roll No: <span id="stu-roll">---</span></p>
+                </div>
+            </div>
+            <hr />
+            
+            <h5 class="font-weight-bold text-primary"><i class="fa fa-user"></i> Student Information</h5>
+            <div class="row mt-3">
+                <div class="col-md-6"><strong>Email:</strong> <p id="stu-email">---</p></div>
+                <div class="col-md-6"><strong>Contact:</strong> <p id="stu-phone">---</p></div>
+                <div class="col-md-6"><strong>Gender:</strong> <p id="stu-gender">---</p></div>
+                <div class="col-md-6"><strong>B-Form / CNIC:</strong> <p id="stu-bform">---</p></div>
+            </div>
+            <hr />
 
+            <h5 class="font-weight-bold text-primary"><i class="fa fa-book"></i> Academic Details</h5>
+            <div class="row mt-3">
+                <div class="col-md-12"><strong>Target Subjects:</strong> <p id="stu-subjects">---</p></div>
+            </div>
+            <hr />
+
+            <h5 class="font-weight-bold text-success"><i class="fa fa-shield"></i> Guardian Information</h5>
+            <div class="row mt-3">
+                <div class="col-md-6"><strong>Guardian Name:</strong> <p id="guard-name">---</p></div>
+                <div class="col-md-6"><strong>Relationship:</strong> <p id="guard-rel">---</p></div>
+                <div class="col-md-6"><strong>Guardian Contact:</strong> <p id="guard-phone">---</p></div>
+                <div class="col-md-6"><strong>Guardian CNIC:</strong> <p id="guard-cnic">---</p></div>
+            </div>
+        </div>
+    </div>
+</div>`;
+       }
        // Function to fill the shell with data
        function populateTutorData(data) {
            if (!data) return;
@@ -467,36 +507,33 @@
                }
                return new Blob(byteArrays, { type: contentType });
            }
-       function renderStudentDesign(data) {
-           return `
-    <div class="profile-card student-view">
-        <div class="row">
-            <div class="col-md-12 d-flex align-items-center mb-4">
-                <img src="${data.ProfileImgPath || '/Content/images/default-student.png'}" class="rounded-circle border" style="width:80px; height:80px;">
-                <div class="ml-3">
-                    <h3 class="mb-0">${data.FullName}</h3>
-                    <small class="text-muted">Student ID: #STU-${data.StudentId}</small>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="p-3 bg-light rounded">
-                    <h6>Contact Info</h6>
-                    <p class="mb-1"><strong>Phone:</strong> ${data.ContactNumber}</p>
-                    <p><strong>Email:</strong> ${data.Email}</p>
-                </div>
-            </div>
-            <div class="col-md-6">
-                 <div class="p-3 bg-light rounded">
-                    <h6>Academic Info</h6>
-                    <p class="mb-1"><strong>Current Class:</strong> ${data.ClassName || 'N/A'}</p>
-                    <p><strong>Institute:</strong> ${data.InstituteName || 'N/A'}</p>
-                </div>
-            </div>
-        </div>
-    </div>`;
-       }
+       function populateStudentData(data) {
+           if (!data || !data.student) return;
 
+           const stu = data.student;
+           const guard = data.gardian || {}; // Matches your C# 'Gardian' property name
+           debugger;
+           // Bind Student Basic Info
+           $('#stu-name').text(stu.fullName || "N/A");
+           $('#stu-roll').text(stu.rollNo || "N/A");
+           $('#stu-email').text(stu.email || "N/A");
+           $('#stu-phone').text(stu.contactNo || "N/A");
+           $('#stu-gender').text(stu.studentGender || "N/A");
+           $('#stu-bform').text(stu.bFormNo || "N/A");
+           $('#stu-subjects').text(stu.targetSubjects || "N/A");
+
+           // Bind Guardian Info
+           $('#guard-name').text(guard.gardianName || "N/A");
+           $('#guard-rel').text(guard.relationship || "N/A");
+           $('#guard-phone').text(guard.contactNo || "N/A");
+           $('#guard-cnic').text(guard.cnic || "N/A");
+
+           // Profile Image Logic (using the bytes you read in the repository)
+           if (stu.profileImgBytes && stu.profileImgBytes.length > 0) {
+               $('#stu-img').attr('src', 'data:image/png;base64,' + stu.profileImgBytes);
+           } else {
+               $('#stu-img').attr('src', '/Content/img/default-student.png');
+           }
+       }
     </script>
 }
